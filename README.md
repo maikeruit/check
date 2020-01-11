@@ -38,3 +38,9 @@ python3 main.py
 docker build -t script .
 docker run -it --rm -v $(pwd):/usr/src/app script
 ```
+
+#### Настройка отправки почты через smtp yandex
+
+В Яндексе необходимо создать пароль приложения. В файле `config.ini`, необходимо указать в блоке `mail` свой `email` и `password` (пароль приложения).
+
+В `destination` необходимо указать почту куда будет отправляться письмо с отчетом о проверке.

@@ -116,4 +116,5 @@ if __name__ == '__main__':
     for thread in threads:
         thread.join()
 
-    mail.send_email('Domain check errors', '\n'.join(errors), 'destination@email.com')
+    if errors:
+        mail.send_email('Domain check errors', '\n'.join(errors), config.get('mail', 'destination'))
