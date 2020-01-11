@@ -4,8 +4,11 @@ import configparser
 import random
 import re
 import logger
+import mail
 from bs4 import BeautifulSoup
 from threading import Thread
+
+errors = []
 
 
 class MyThread(Thread):
@@ -27,8 +30,10 @@ class MyThread(Thread):
         try:
             check(self.row)
         except ConnectionError as err:
+            errors.append('{domain} - Connection error: {err}'.format(domain=domain, err=err))
             logger.error('{domain} - Connection error: {err}'.format(domain=domain, err=err))
         except Exception as err:
+            errors.append('{domain} - Undefined error: {err}'.format(domain=domain, err=err))
             logger.error('{domain} - Undefined error: {err}'.format(domain=domain, err=err))
 
 
@@ -98,6 +103,7 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read('config.ini')
     logger = logger.init_logger(__name__, testing_mode=False)
+    threads = []
 
     with open('domain.csv') as file:
         reader = csv.DictReader(file)
@@ -105,3 +111,9 @@ if __name__ == '__main__':
         for row in reader:
             thread = MyThread(row, logger)
             thread.start()
+            threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+
+    mail.send_email('Domain check errors', '\n'.join(errors), 'destination@email.com')
