@@ -2,7 +2,7 @@
 
 В системе должен быть установлен `python3` и для работы с докер пакет `docker` так же должен быть установлен.
 
-В `python` скрипте используются пакеты `beautifulsoup4`, `requests`.
+В `python` скрипте используются пакеты `beautifulsoup4`, `requests`, `colorlog`.
 
 Домены указываются в файле `domain.csv`, протокол подключения к доменам настраивается в`config.ini`.
 
@@ -15,6 +15,7 @@ python3 -m venv venv
 source ./venv/bin/active
 pip install beautifulsoup4
 pip install requests
+pip install colorlog
 python main.py
 ```
 
@@ -25,6 +26,7 @@ python main.py
 ```bash
 pip3 install beautifulsoup4
 pip3 install requests
+pip3 install colorlog
 python3 main.py
 ```
 
